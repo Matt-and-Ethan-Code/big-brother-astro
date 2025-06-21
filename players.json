@@ -1,0 +1,73 @@
+[
+    {
+      "name": "Derrick Levasseur",
+      "occupation": "Undercover Police Sergeant",
+      "age": 30,
+      "summary": "A strategic mastermind who played a flawless social and strategic game, Derrick managed to never be nominated while controlling most evictions.",
+      "alliances": ["Victoria Rafaeli", "Cody Calafiore", "Frankie Grande"]
+    },
+    {
+      "name": "Cody Calafiore",
+      "occupation": "Sales Account Executive",
+      "age": 23,
+      "summary": "Part of 'The Hitmen' alliance with Derrick, Cody had strong social ties and won key competitions, ultimately taking Derrick to the final 2.",
+      "alliances": ["Derrick Levasseur", "Christine Brecht", "Frankie Grande"]
+    },
+    {
+      "name": "Frankie Grande",
+      "occupation": "YouTube Personality",
+      "age": 31,
+      "summary": "Flashy and competitive, Frankie was a strong social and physical player who made several bold moves before being blindsided late in the game.",
+      "alliances": ["Derrick Levasseur", "Cody Calafiore", "Zach Rance"]
+    },
+    {
+      "name": "Victoria Rafaeli",
+      "occupation": "Photographer",
+      "age": 22,
+      "summary": "Often underestimated, Victoria was protected by Derrick throughout the game and managed to make it far despite not winning many comps.",
+      "alliances": ["Derrick Levasseur"]
+    },
+    {
+      "name": "Zach Rance",
+      "occupation": "Recent College Graduate",
+      "age": 23,
+      "summary": "Energetic and unpredictable, Zach was a fan favorite for his antics and chaos. He played hard and fast but burned bridges quickly.",
+      "alliances": ["Frankie Grande", "Donny Thompson"]
+    },
+    {
+      "name": "Christine Brecht",
+      "occupation": "Barista",
+      "age": 23,
+      "summary": "Christine was a strategic player with strong ties to the male-dominated Bomb Squad, but her loyalty was questioned by allies and fans alike.",
+      "alliances": ["Cody Calafiore", "Nicole Franzel"]
+    },
+    {
+      "name": "Donny Thompson",
+      "occupation": "Groundskeeper",
+      "age": 42,
+      "summary": "Beloved for his heart and sincerity, Donny was seen as a threat due to his likability and comp wins, despite being on the outs with the main alliance.",
+      "alliances": ["Zach Rance", "Nicole Franzel"]
+    },
+    {
+      "name": "Nicole Franzel",
+      "occupation": "Nursing Student",
+      "age": 21,
+      "summary": "Smart and competitive, Nicole tried to lead an opposition to the Bomb Squad but was taken out twice. She later returned in future seasons.",
+      "alliances": ["Donny Thompson", "Christine Brecht"]
+    },
+    {
+      "name": "Caleb Reynolds",
+      "occupation": "Adventure Hunting Guide",
+      "age": 26,
+      "summary": "Loyal and physically dominant, Caleb was fiercely loyal to his alliance and excelled in comps, though his romantic fixation on Amber raised eyebrows.",
+      "alliances": ["Frankie Grande", "Cody Calafiore"]
+    },
+    {
+      "name": "Amber Borzotra",
+      "occupation": "Esthetician",
+      "age": 26,
+      "summary": "Amber was physically capable and socially well-liked, but was targeted early due to her independence and being seen as a threat by the Bomb Squad.",
+      "alliances": ["Donny Thompson", "Jocasta Odom"]
+    }
+  ]
+  
