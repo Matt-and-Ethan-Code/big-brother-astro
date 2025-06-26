@@ -32,7 +32,9 @@ export async function POST() {
     // get how many games are happening currently -- we don't want too many
     const roomNameResponse: string | null = await client.get('next_game_id');
     if (roomNameResponse == null) {
-        return new Response("{}", {
+        return new Response(JSON.stringify({
+            errorMessage: "The internal database is missing the next_game_id parameter."
+        }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
         })
@@ -41,7 +43,9 @@ export async function POST() {
 
     const roomID: number = decode(roomName)
     if (roomID > UPPERBOUND_ID) {
-        return new Response("{}", {
+        return new Response(JSON.stringify({
+            errorMessage: "Too many rooms have been created. Can't create any more."
+        }), {
             status: 403,
             headers: { 'Content-Type': 'application/json' }
         })
