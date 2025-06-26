@@ -7,8 +7,7 @@ await client.connect();
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; 
 const BASE = ALPHABET.length;
 
-const UPPERBOUND = 'KTFXW'
-const UPPERBOUND_ID = 10000052
+const MAX_ENTRIES = 100; 
 
 function encode(num: number) {
     let str = '';
@@ -41,8 +40,8 @@ export async function POST() {
     } 
     const roomName = roomNameResponse;
 
-    const roomID: number = decode(roomName)
-    if (roomID > UPPERBOUND_ID) {
+    const numberEntries = await client.dbSize();
+    if (numberEntries >= MAX_ENTRIES) {
         return new Response(JSON.stringify({
             errorMessage: "Too many rooms have been created. Can't create any more."
         }), {
@@ -51,7 +50,9 @@ export async function POST() {
         })
     } else {
         // generate and store next ID
-        const nextID = roomID + 1;
+        
+        const roomID: number = decode(roomName)
+        const nextID = roomID + 100;
         const nextGameName = encode(nextID);
 
         await client.set("next_game_id", nextGameName);
