@@ -24,7 +24,7 @@ export async function POST( request: any ) {
             if (roomMembersData.includes(userID)) {
                 // user has already joined
                 return new Response(JSON.stringify({
-                    errorMessage: "You have already joined this room."
+                    errorMessage: "A player with the same name has already joined this room."
                 }), {
                     status: 400,
                     headers: { 'Content-Type': 'application/json' }
