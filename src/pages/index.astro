@@ -18,7 +18,9 @@ import Layout from '../layouts/Layout.astro';
 
 
 <body>
-	<h1>BIG BROTHER</h1>
+	<div id="top-logo">
+		<h1>BIG BROTHER</h1>
+	</div>
 
 	<div id="page-content">
 		<form id="room-join-form">
@@ -26,20 +28,52 @@ import Layout from '../layouts/Layout.astro';
 			<!-- https://codepen.io/giana/pen/BZaGyP -->
 			<button type="submit" id="room-join-button">JOIN</button>
 		</form>
-		<button onclick="hostStartEvent()">Are you the host? Start new session now.</button>
+		<a id="make-room-link">Are you the host? Start new session now.</a>
 
 	</div>
 </body>
 
 <style>
+	#make-room-link {
+		color: #FFFFFF;
+		text-decoration: none;
+		border-bottom: 2px solid #FFF;
+		padding-bottom: 2px;
+		font-family: 'Karla', sans-serif;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		transition: all 0.3s ease;
+	}
+
+	#make-room-link:hover {
+		color: #FFDE59;
+		border-bottom-color: #FFDE59;
+		padding-bottom: 4px;
+	}
+
 	input {
 		font-family: "Karla";
 		line-height: 1;
+		background-color: rgba(26, 26, 26, 0.8);
+		color: #FFFFFF;
+		border: none;
+		border-radius: 8px;
+		padding: 0.75rem 1rem;
+		outline: none;
+		transition: all 0.3s ease;
 		width: 300px;
 		height: 40px;
-		padding: 10px;
 		font-size: 1.5em;
 	}
+	input::placeholder {
+		color: #CCCCCC;
+	}
+
+	input:focus {
+		border-color: #FFDE59;
+		box-shadow: 0 0 8px #FFDE59, 0 0 16px #FFDE59;
+	}
+
 	#page-content {
 		display: flex;
 		flex-direction: column;
@@ -48,44 +82,77 @@ import Layout from '../layouts/Layout.astro';
 		height: 70%;
 	}
 
+	#top-logo {
+		background-color: #1A1A1A;
+		width: fit-content;
+		padding: 0 1rem;
+		border-radius: 20px;
+	}
+
 	h1 {
 		font-family: 'Rubik Mono One', monospace;
 		font-weight: 400;
 		font-style: normal;
+		color: #FFDE59;
+		text-shadow: 0 0 8px #FFDE59;
+		padding: 10px;
+		/* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; */
 	}
 
 	#room-join-form {
 
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		margin: 20px;
 	}
 
 	#room-join-button {
 		max-width: 200px;
+		transition: 0.25s; 
+		background-color: #1A1A1A;   
+		color: #FFFFFF;      
+		position: relative;     
 
-		background: none;
-		border: 2px solid;
-		font: inherit;
-		line-height: 1;
-		margin: 0.5em;
-		padding: 1em 2em;
+        
+		border: none;
+		border-radius: 5px;  
+		padding: 0.75rem 1.5rem; 
 
-		color: #a972cb;
-		transition: 0.25s;
+		transition: all 0.3s ease;
+		text-transform: uppercase;  
 
 		font-family: "Chakra Petch", sans-serif;
 		font-weight: 500;
 		font-style: normal;
+		margin: 10px;
+		font-size: 1.5em;
+	}
+
+
+		
+	#room-join-button::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
 		height: 100%;
+
+		background: url('squares.avif');
+		background-size: cover;
+		opacity: 0.8;
+
+		mask-image: radial-gradient(circle at center, transparent 50%, black 100%);
+		-webkit-mask-image: radial-gradient(circle at center, transparent 50%, black 100%);
+		pointer-events: none; 
+		z-index: 0; 
 	}
 
 	#room-join-button:hover, #room-join-button:focus {
-		/* box-shadow: inset 0 0 0 hue-rotate(,45deg) */
-		border-color: #cb72aa;
-		color: #fff;
-		box-shadow: inset 0 0 0 2em #cb72aa;
+
+		box-shadow: 0 0 12px #FFDE59, 0 0 24px #FFDE59;
+		transform: scale(1.05);
 
 	}
 
@@ -96,12 +163,15 @@ import Layout from '../layouts/Layout.astro';
 		min-height: 100%;
 		height: 100%;
 		/* height: 100vh; */
+		backdrop-filter: blur(9px);
+		overflow: hidden;
 	}
 
 	body {
 		background-image: url("/bg11.png");
 		object-fit: cover;
 		background-size: cover;
+		/* backdrop-filter: blur(3px); */
 	}
 </style>
 
