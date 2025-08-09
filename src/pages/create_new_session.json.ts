@@ -1,7 +1,19 @@
 import { createClient } from 'redis';
+import type { APIRoute } from 'astro';
 
-const client = createClient();
-await client.connect();
+export const prerender = false;
+
+const path_name = `rediss://default:${import.meta.env.UPSTASH_TOKEN}@${import.meta.env.UPSTASH_ENDPOINT}:${import.meta.env.UPSTASH_PORT}`
+console.log("PATH NAME: ", path_name)
+
+const client = createClient({
+    url: path_name
+}).on("error", console.error)
+try {
+    await client.connect();
+} catch(e) {
+    console.log("ERROR! ", e);
+}
 
 // a function for encoding an id to a string
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; 
@@ -29,6 +41,7 @@ function decode(str: string) {
 
 export async function POST() {
     // get how many games are happening currently -- we don't want too many
+    console.log("posting...")
     const roomNameResponse: string | null = await client.get('next_game_id');
     if (roomNameResponse == null) {
         return new Response(JSON.stringify({
@@ -56,6 +69,9 @@ export async function POST() {
         const nextGameName = encode(nextID);
 
         await client.set("next_game_id", nextGameName);
+
+
+        await client.set(roomName, JSON.stringify([]))
 
         return new Response(JSON.stringify({
             roomID: roomName
