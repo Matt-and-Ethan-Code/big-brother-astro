@@ -1,0 +1,68 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(9px);
+    overflow: hidden;
+}
+
+body {
+    background-image: url("/bg11.png");
+    object-fit: cover;
+    background-size: cover;
+}
+
+#top-logo {
+    background-color: #1A1A1A;
+    width: fit-content;
+    padding: 0 1rem;
+    border-radius: 20px;
+
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    text-shadow: 0 0 8px white;
+    padding: 10px;
+    /* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; */
+}
+
+
+input {
+    font-family: "Karla";
+    line-height: 1;
+    background-color: rgba(26, 26, 26, 0.8);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 300px;
+    height: 40px;
+    font-size: 1.5em;
+    margin: 5px;
+}
+input::placeholder {
+    color: #CCCCCC;
+}
+
+input:focus {
+    border-color: #FFDE59;
+    box-shadow: 0 0 8px #FFDE59, 0 0 16px #FFDE59;
+}
+
+#page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 70%;
+}

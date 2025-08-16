@@ -1,3 +1,30 @@
-<div>
-    Monitor the voting while votes are trickling in:
-</div>
+---
+import Welcome from '../components/Welcome.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<div id="top-logo">
+		<h1>BIG BROTHER</h1>
+	</div>
+	<div id="page-content">
+		<div id="room-code-container">
+			<span>Room Code</span>
+			<span id="room-code"></span>
+		</div>
+
+		<div id="current-players-container">
+
+		</div>
+	</div>
+</Layout>
+
+
+<script is:inline>
+	const params = new URLSearchParams(window.location.search).get('roomCode');
+	//const roomCode = Astro.url.searchParams.get('roomCode') || ''; //params.get('roomCode');
+
+	const roomCodeDiv = document.getElementById("room-code");
+
+	roomCodeDiv.textContent = params;
+</script>

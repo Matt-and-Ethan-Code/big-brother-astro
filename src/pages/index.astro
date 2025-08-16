@@ -2,36 +2,27 @@
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
 ---
 
-<!-- <Layout>
-	<Welcome />
-</Layout> -->
-
-<head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Karla:ital,wght@0,200..800;1,200..800&family=Rubik+Mono+One&display=swap" rel="stylesheet">
-</head>
-
-
-<body>
+<Layout>
 	<div id="top-logo">
 		<h1>BIG BROTHER</h1>
 	</div>
 
 	<div id="page-content">
-		<form id="room-join-form">
+		<form id="room-join-form" action="/enter_waiting_room.json" method="post">
 			<input type="text" id="game-pin" name="game-pin" placeholder="Game PIN">
+			<input type="text" id="player-name" name="player-name" placeholder="Name">
 			<!-- https://codepen.io/giana/pen/BZaGyP -->
 			<button type="submit" id="room-join-button">JOIN</button>
 		</form>
-		<a id="make-room-link">Are you the host? Start new session now.</a>
+		<a onclick="hostStartEvent()" id="make-room-link">Are you the host? Start new session now.</a>
 
 	</div>
-</body>
+</Layout>
+
+
 
 <style>
 	#make-room-link {
@@ -49,56 +40,6 @@ import Layout from '../layouts/Layout.astro';
 		color: #FFDE59;
 		border-bottom-color: #FFDE59;
 		padding-bottom: 4px;
-	}
-
-	input {
-		font-family: "Karla";
-		line-height: 1;
-		background-color: rgba(26, 26, 26, 0.8);
-		color: #FFFFFF;
-		border: none;
-		border-radius: 8px;
-		padding: 0.75rem 1rem;
-		outline: none;
-		transition: all 0.3s ease;
-		width: 300px;
-		height: 40px;
-		font-size: 1.5em;
-	}
-	input::placeholder {
-		color: #CCCCCC;
-	}
-
-	input:focus {
-		border-color: #FFDE59;
-		box-shadow: 0 0 8px #FFDE59, 0 0 16px #FFDE59;
-	}
-
-	#page-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-between;
-		height: 70%;
-	}
-
-	#top-logo {
-		background-color: #1A1A1A;
-		width: fit-content;
-		padding: 0 1rem;
-		border-radius: 20px;
-
-		margin: 0 auto;
-	}
-
-	h1 {
-		font-family: 'Rubik Mono One', monospace;
-		font-weight: 400;
-		font-style: normal;
-		color: white;
-		text-shadow: 0 0 8px white;
-		padding: 10px;
-		/* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; */
 	}
 
 	#room-join-form {
@@ -158,27 +99,30 @@ import Layout from '../layouts/Layout.astro';
 
 	}
 
-	html, body {
-
-		margin: 0;
-		padding: 0;
-		min-height: 100%;
-		height: 100%;
-		/* height: 100vh; */
-		backdrop-filter: blur(9px);
-		overflow: hidden;
-	}
-
-	body {
-		background-image: url("/bg11.png");
-		object-fit: cover;
-		background-size: cover;
-		/* backdrop-filter: blur(3px); */
-	}
 </style>
 
 <script is:inline>
-	const hostStartEvent = () => {
-		
+	const hostStartEvent = async () => {
+		const response = await fetch('/create_new_session.json', {method: 'POST', headers: { 'Content-Type': 'application/json' } });
+		const data = await response.json();
+		if (data.roomID) {
+			window.location.href = `/results?roomCode=${data.roomID}`;
+		}
+
 	}
+
+	const handleWaitingRoomJoin = async () => {
+		console.log('abc')
+
+		const textBox = document.getElementById("game-pin");
+		const response = await fetch('/enter_waiting_room.json', {method: 'POST', headers: { 'Content-Type': 'application/json' }});
+
+		//console.log("textBox,", response);
+		//const roomCode = 
+
+		window.location.href = `/`;
+
+	}
+
+
 </script>
