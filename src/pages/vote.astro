@@ -1,4 +1,89 @@
-<div>
-    Please rank the participants below:
+---
+import Layout from "../layouts/Layout.astro";
+import players from "./public/players.json";
+console.log(players);
 
-</div>
+const playerNames = players;
+
+---
+<style>
+.player {
+    padding: .5rem 0rem;
+    font-size: 1.5rem;
+}
+.player-list {
+    list-style: none;
+}
+</style>
+
+<script>
+  const playerList = document.querySelector('.player-list')! as HTMLUListElement;
+  let draggedElement: Element | null = null;
+    function dragStart(this: Element, ev: DragEvent) {
+      draggedElement = this;
+    }
+
+    function dragOver(this: Element, ev: DragEvent) {
+      ev.preventDefault();
+    }
+
+    function drop(this: Element, ev: DragEvent) {
+      debugger;
+      if (draggedElement == null) return;
+      console.log(`DROPPED ON:${this.innerHTML}`);
+      const elementDroppedOn = this;
+      const { clientY: mouseY } = ev;
+      const elementDroppedOnBox = elementDroppedOn.getBoundingClientRect();
+      const { top, bottom } = elementDroppedOnBox;
+      const middleLine = (top + bottom) / 2;
+
+      
+      const droppedOnUpperHalf = mouseY < middleLine;
+      const msg = droppedOnUpperHalf ? 'upper' : 'lower';
+      console.log(`${draggedElement?.innerHTML} DROPPED ON ${elementDroppedOn.innerHTML} ${msg}`);
+
+      const shouldInsertBefore = droppedOnUpperHalf;
+      if (shouldInsertBefore) {
+        playerList.insertBefore(elementDroppedOn, draggedElement);
+      }
+      else {
+        // find the element that's after elementDroppedOn, and insertBefore that
+        let elementAfter: Element | null = null;
+        let elementDroppedOnFound = false;
+        for (const playerElement of playerList.children) {
+          if (elementDroppedOnFound) {
+            elementAfter = playerElement;
+            break;
+          }
+          elementDroppedOnFound = playerElement == elementDroppedOn;
+        }
+        const elementDroppedOnWasLastInList = elementAfter == null;
+        if (elementDroppedOnWasLastInList) {
+          playerList.appendChild(draggedElement);
+        }
+        else {
+          playerList.insertBefore(elementDroppedOn, elementAfter)
+        }
+      }
+      
+      draggedElement = null;
+    }
+    
+    for (const playerElement of document.querySelectorAll('.player')) {
+      // @ts-ignore
+      playerElement.addEventListener('dragstart', dragStart);
+      // @ts-ignore
+      playerElement.addEventListener('dragover', dragOver);
+      // @ts-ignore
+      playerElement.addEventListener('drop', drop);
+    }
+</script>
+<Layout>
+    <div>
+        Please rank the participants below:
+        <ul class="player-list">
+            {playerNames.map(name => <li class="player" draggable="true" >{name}</li>)}
+        </ul>
+    </div>
+</Layout>
+
