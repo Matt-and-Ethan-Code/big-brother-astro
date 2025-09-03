@@ -1,11 +1,67 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import players from "./public/players.json";
-console.log(players);
 
-const playerNames = players;
+/* Currently just a list of players' names */
+const playerNames: string[] = players;
 
 ---
+
+<script>
+  function dragStart(this: HTMLElement, event: DragEvent) {
+    const player_name = this.id;
+    if (!player_name) throw new Error('no data-player-name')
+    if (!event.dataTransfer) throw new Error('no data transfer!!');
+    event.dataTransfer.setData('text/plain', player_name);
+    console.log(player_name)
+  }
+
+  /* Returns whether the dropped element was dropped on the upper or lower half of the dropee element */
+  function calculate_drop_position(dropee_element: HTMLElement, drop_position: {x:number,y:number}): 'upper' | 'lower' {
+    const dropee_box = dropee_element.getBoundingClientRect();
+    const dropee_middle_y = (dropee_box.top + dropee_box.bottom) / 2;
+    if (drop_position.y < dropee_middle_y) {
+      return 'upper';
+    } else {
+      return 'lower';
+    }
+  }
+
+  function drop(this: HTMLElement, event: DragEvent) {
+    const player_name_being_dropped = event.dataTransfer?.getData('text/plain');
+    if (!player_name_being_dropped) throw new Error('dataTransfer not set!');
+    const dropped_element = document.getElementById(player_name_being_dropped)!;
+    const dropee_element = this;
+    const player_list_element = document.querySelector('.player-list')! as HTMLUListElement;
+    const drop_position = {x: event.clientX, y: event.clientY};
+
+    const should_insert_before = calculate_drop_position(dropee_element, drop_position) === 'upper';
+
+    if (should_insert_before) {
+      player_list_element.insertBefore(dropped_element, dropee_element);
+    }
+    else { /* Should insert after the dropee_element */
+      // strategy: since no insertAfter exists, get the next element, if it exists, then insertBefore that
+      const after_dropee_element = dropee_element.nextElementSibling;
+      if (after_dropee_element == null) {
+        player_list_element.appendChild(dropee_element);
+      }
+      else {
+        player_list_element.insertBefore(dropped_element, after_dropee_element);
+      }
+    }
+
+    event.preventDefault();  // signal that the drop is being consumed
+  }
+
+  for (const player_element of document.querySelectorAll('li')) {
+    player_element.addEventListener('dragstart', dragStart);
+    // must event.preventDefault on dragEnter and dragOver
+    player_element.addEventListener('dragenter', ev => ev.preventDefault());
+    player_element.addEventListener('dragover', ev => ev.preventDefault());
+    player_element.addEventListener('drop', drop);
+  }
+</script>
 <style>
 .player {
     padding: .5rem 0rem;
@@ -16,74 +72,9 @@ const playerNames = players;
 }
 </style>
 
-<script>
-  const playerList = document.querySelector('.player-list')! as HTMLUListElement;
-  let draggedElement: Element | null = null;
-    function dragStart(this: Element, ev: DragEvent) {
-      draggedElement = this;
-    }
-
-    function dragOver(this: Element, ev: DragEvent) {
-      ev.preventDefault();
-    }
-
-    function drop(this: Element, ev: DragEvent) {
-      debugger;
-      if (draggedElement == null) return;
-      console.log(`DROPPED ON:${this.innerHTML}`);
-      const elementDroppedOn = this;
-      const { clientY: mouseY } = ev;
-      const elementDroppedOnBox = elementDroppedOn.getBoundingClientRect();
-      const { top, bottom } = elementDroppedOnBox;
-      const middleLine = (top + bottom) / 2;
-
-      
-      const droppedOnUpperHalf = mouseY < middleLine;
-      const msg = droppedOnUpperHalf ? 'upper' : 'lower';
-      console.log(`${draggedElement?.innerHTML} DROPPED ON ${elementDroppedOn.innerHTML} ${msg}`);
-
-      const shouldInsertBefore = droppedOnUpperHalf;
-      if (shouldInsertBefore) {
-        playerList.insertBefore(elementDroppedOn, draggedElement);
-      }
-      else {
-        // find the element that's after elementDroppedOn, and insertBefore that
-        let elementAfter: Element | null = null;
-        let elementDroppedOnFound = false;
-        for (const playerElement of playerList.children) {
-          if (elementDroppedOnFound) {
-            elementAfter = playerElement;
-            break;
-          }
-          elementDroppedOnFound = playerElement == elementDroppedOn;
-        }
-        const elementDroppedOnWasLastInList = elementAfter == null;
-        if (elementDroppedOnWasLastInList) {
-          playerList.appendChild(draggedElement);
-        }
-        else {
-          playerList.insertBefore(elementDroppedOn, elementAfter)
-        }
-      }
-      
-      draggedElement = null;
-    }
-    
-    for (const playerElement of document.querySelectorAll('.player')) {
-      // @ts-ignore
-      playerElement.addEventListener('dragstart', dragStart);
-      // @ts-ignore
-      playerElement.addEventListener('dragover', dragOver);
-      // @ts-ignore
-      playerElement.addEventListener('drop', drop);
-    }
-</script>
 <Layout>
-    <div>
-        Please rank the participants below:
-        <ul class="player-list">
-            {playerNames.map(name => <li class="player" draggable="true" >{name}</li>)}
-        </ul>
-    </div>
+  <ul class="player-list">
+    {playerNames.map(name=><li class="player" draggable="true" id={name}>{name}</li>)}
+  </ul>
 </Layout>
 
