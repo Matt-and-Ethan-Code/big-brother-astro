@@ -1,80 +1,43 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import players from "./public/players.json";
-
+import Sortable from 'sortablejs';
 /* Currently just a list of players' names */
 const playerNames: string[] = players;
 
 ---
 
 <script>
-  function dragStart(this: HTMLElement, event: DragEvent) {
-    const player_name = this.id;
-    if (!player_name) throw new Error('no data-player-name')
-    if (!event.dataTransfer) throw new Error('no data transfer!!');
-    event.dataTransfer.setData('text/plain', player_name);
-    console.log(player_name)
-  }
-
-  /* Returns whether the dropped element was dropped on the upper or lower half of the dropee element */
-  function calculate_drop_position(dropee_element: HTMLElement, drop_position: {x:number,y:number}): 'upper' | 'lower' {
-    const dropee_box = dropee_element.getBoundingClientRect();
-    const dropee_middle_y = (dropee_box.top + dropee_box.bottom) / 2;
-    if (drop_position.y < dropee_middle_y) {
-      return 'upper';
-    } else {
-      return 'lower';
-    }
-  }
-
-  function drop(this: HTMLElement, event: DragEvent) {
-    const player_name_being_dropped = event.dataTransfer?.getData('text/plain');
-    if (!player_name_being_dropped) throw new Error('dataTransfer not set!');
-    const dropped_element = document.getElementById(player_name_being_dropped)!;
-    const dropee_element = this;
-    const player_list_element = document.querySelector('.player-list')! as HTMLUListElement;
-    const drop_position = {x: event.clientX, y: event.clientY};
-
-    const should_insert_before = calculate_drop_position(dropee_element, drop_position) === 'upper';
-
-    if (should_insert_before) {
-      player_list_element.insertBefore(dropped_element, dropee_element);
-    }
-    else { /* Should insert after the dropee_element */
-      // strategy: since no insertAfter exists, get the next element, if it exists, then insertBefore that
-      const after_dropee_element = dropee_element.nextElementSibling;
-      if (after_dropee_element == null) {
-        player_list_element.appendChild(dropee_element);
-      }
-      else {
-        player_list_element.insertBefore(dropped_element, after_dropee_element);
-      }
-    }
-
-    event.preventDefault();  // signal that the drop is being consumed
-  }
-
-  for (const player_element of document.querySelectorAll('li')) {
-    player_element.addEventListener('dragstart', dragStart);
-    // must event.preventDefault on dragEnter and dragOver
-    player_element.addEventListener('dragenter', ev => ev.preventDefault());
-    player_element.addEventListener('dragover', ev => ev.preventDefault());
-    player_element.addEventListener('drop', drop);
-  }
+  document.addEventListener('DOMContentLoaded', async () => {
+    const Sortable = (await import('sortablejs')).default;
+    const player_list = document.querySelector('ul');
+    if (!player_list) throw new Error('no player list');
+    new Sortable(player_list, {
+      animation: 150,
+    })
+  })
 </script>
 <style>
 .player {
     padding: .5rem 0rem;
     font-size: 1.5rem;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:row;
 }
 .player-list {
     list-style: none;
+    display:flex;
+    align-items:center;
+    flex-direction:column;
 }
 </style>
 
 <Layout>
   <ul class="player-list">
-    {playerNames.map(name=><li class="player" draggable="true" id={name}>{name}</li>)}
+    {playerNames.map(name=><li class="player" id={name}>{name}</li>)}
   </ul>
 </Layout>
 
