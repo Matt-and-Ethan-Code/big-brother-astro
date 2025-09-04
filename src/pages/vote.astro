@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import players from "./public/players.json";
+import playersJson from "./public/players.json";
 import Sortable from 'sortablejs';
 /* Currently just a list of players' names */
-const playerNames: string[] = players;
+type Player = { name: string, img: string}
+const players = playersJson as Player[];
 
 ---
 
@@ -16,8 +17,25 @@ const playerNames: string[] = players;
       animation: 150,
     })
   })
+
+  function onSubmit(this: HTMLButtonElement) {
+    const player_list = document.querySelector('ul')!
+    const player_names_in_order = [];
+    for (const player_element of player_list.children) {
+      const player_name = player_element.id;
+      player_names_in_order.push(player_name);
+    }
+
+    console.log(player_names_in_order)
+  }
+  document.getElementById('submit-button')!.addEventListener('click', onSubmit)
 </script>
 <style>
+
+html, body {
+  height: auto;
+  overflow-y: auto
+}
 .player {
     padding: .5rem 0rem;
     font-size: 1.5rem;
@@ -25,7 +43,10 @@ const playerNames: string[] = players;
     display:flex;
     align-items:center;
     justify-content:center;
-    flex-direction:row;
+    flex-direction:column;
+}
+.player-name {
+  margin: 0;
 }
 .player-list {
     list-style: none;
@@ -37,7 +58,12 @@ const playerNames: string[] = players;
 
 <Layout>
   <ul class="player-list">
-    {playerNames.map(name=><li class="player" id={name}>{name}</li>)}
+    {players.map(player=>
+      <li class="player" id={player.name}>
+        <img src={player.img} height="100"/>
+        <h3 class="player-name">{player.name}</h3>
+      </li>)}
   </ul>
+  <button id="submit-button">Submit</button>
 </Layout>
 

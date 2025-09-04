@@ -1,18 +1,19 @@
-[ "Ava"
-, "Zach"
-, "Zae"
-, "Kelley"
-, "Vince"
-, "Keanu"
-, "Will"
-, "Lauren"
-, "Katherine"
-, "Amy"
-, "Rachel"
-, "Jimmy"
-, "Ashley"
-, "Mickey"
-, "Rylie"
-, "Adrian"
-, "Morgan"
+[ 
+    { "name": "Ava", "img": "players/ava.jpg"},
+    { "name": "Zach", "img": "players/zach.jpg"},
+    { "name": "Zae", "img": "players/zae.jpg"},
+    { "name": "Kelley", "img": "players/kelley.jpg"},
+    { "name": "Vince", "img": "players/vince.jpg"},
+    { "name": "Keanu", "img": "players/keanu.jpg"},
+    { "name": "Will", "img": "players/will.jpg"},
+    { "name": "Lauren", "img": "players/lauren.jpg"},
+    { "name": "Katherine", "img": "players/katherine.jpg"},
+    { "name": "Amy", "img": "players/amy.jpg"},
+    { "name": "Rachel", "img": "players/rachel.jpg"},
+    { "name": "Jimmy", "img": "players/jimmy.jpg"},
+    { "name": "Ashley", "img": "players/ashley.jpg"},
+    { "name": "Mickey", "img": "players/mickey.jpg"},
+    { "name": "Rylie", "img": "players/rylie.jpg"},
+    { "name": "Adrian", "img": "players/adrian.jpg"},
+    { "name": "Morgan", "img": "players/morgan.jpg"}
 ]
