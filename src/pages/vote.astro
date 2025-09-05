@@ -3,9 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import playersJson from "./public/players.json";
 import Sortable from 'sortablejs';
 /* Currently just a list of players' names */
-type Player = { name: string, img: string}
+type Player = { name: string, age: number, state: string, occupation: string, description: string, img: string}
 const players = playersJson as Player[];
-
+const game_id = Astro.url.searchParams.get('gameId');
+const user_name = Astro.url.searchParams.get('playerName')
+console.log(game_id, user_name)
 ---
 
 <script>
@@ -14,6 +16,7 @@ const players = playersJson as Player[];
     const player_list = document.querySelector('ul');
     if (!player_list) throw new Error('no player list');
     new Sortable(player_list, {
+      handle: '.handle',
       animation: 150,
     })
   })
@@ -31,39 +34,28 @@ const players = playersJson as Player[];
   document.getElementById('submit-button')!.addEventListener('click', onSubmit)
 </script>
 <style>
-
-html, body {
-  height: auto;
-  overflow-y: auto
-}
-.player {
-    padding: .5rem 0rem;
-    font-size: 1.5rem;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-}
-.player-name {
-  margin: 0;
-}
-.player-list {
-    list-style: none;
-    display:flex;
-    align-items:center;
-    flex-direction:column;
-}
+  html,body {
+    overflow-y: auto;
+  }
 </style>
-
 <Layout>
-  <ul class="player-list">
+  <ul>
     {players.map(player=>
-      <li class="player" id={player.name}>
-        <img src={player.img} height="100"/>
-        <h3 class="player-name">{player.name}</h3>
+      <li class="p-1 grid my-1 mx-2 border-2 border-solid rounded-lg box-border" style="background: rgba(255,255,255,.3); grid-template-columns: 40fr 50fr 10fr" id={player.name}>
+        <img class="rounded-lg" src={player.img}/>
+        <div class="ml-4">
+          <h3 class="text-3xl font-bold">{player.name}</h3>
+          <h4 class="text-xl font-bold">{player.age}, {player.state}</h4>
+          <h4 class="text-xl">{player.occupation}</h4>
+          <p>{player.description}</p>
+        </div>
+        <div class="flex items-center justify-center handle">
+          <span class="material-symbols-outlined">
+            drag_indicator
+          </span>
+        </div>
       </li>)}
   </ul>
-  <button id="submit-button">Submit</button>
+  <button class="text-5xl border-2 rounded-lg bg-white px-2 py-1 w-full mb-4" id="submit-button">Submit Ranking</button>
 </Layout>
 

@@ -1,19 +1,138 @@
-[ 
-    { "name": "Ava", "img": "players/ava.jpg"},
-    { "name": "Zach", "img": "players/zach.jpg"},
-    { "name": "Zae", "img": "players/zae.jpg"},
-    { "name": "Kelley", "img": "players/kelley.jpg"},
-    { "name": "Vince", "img": "players/vince.jpg"},
-    { "name": "Keanu", "img": "players/keanu.jpg"},
-    { "name": "Will", "img": "players/will.jpg"},
-    { "name": "Lauren", "img": "players/lauren.jpg"},
-    { "name": "Katherine", "img": "players/katherine.jpg"},
-    { "name": "Amy", "img": "players/amy.jpg"},
-    { "name": "Rachel", "img": "players/rachel.jpg"},
-    { "name": "Jimmy", "img": "players/jimmy.jpg"},
-    { "name": "Ashley", "img": "players/ashley.jpg"},
-    { "name": "Mickey", "img": "players/mickey.jpg"},
-    { "name": "Rylie", "img": "players/rylie.jpg"},
-    { "name": "Adrian", "img": "players/adrian.jpg"},
-    { "name": "Morgan", "img": "players/morgan.jpg"}
+[
+    {
+        "name": "Ava",
+        "age": 24,
+        "state": "New York",
+        "occupation": "Aura Painter",
+        "description": "",
+        "img": "players/ava.jpg"
+    },
+    {
+        "name": "Zach",
+        "age": 27,
+        "state": "Georgia",
+        "occupation": "Marketing Manager",
+        "description": "",
+        "img": "players/zach.jpg"
+    },
+    {
+        "name": "Zae",
+        "age": 23,
+        "state": "Arizona",
+        "occupation": "Salesperson",
+        "description": "",
+        "img": "players/zae.jpg"
+    },
+    {
+        "name": "Kelley",
+        "age": 29,
+        "state": "South Dakota",
+        "occupation": "Web Designer",
+        "description": "",
+        "img": "players/kelley.jpg"
+    },
+    {
+        "name": "Vince",
+        "age": 34,
+        "state": "California",
+        "occupation": "Unemployed",
+        "description": "",
+        "img": "players/vince.jpg"
+    },
+    {
+        "name": "Keanu",
+        "age": 33,
+        "state": "Texas",
+        "occupation": "Dungeon Master",
+        "description": "",
+        "img": "players/keanu.jpg"
+    },
+    {
+        "name": "Will",
+        "age": 50,
+        "state": "North Carolina",
+        "occupation": "College Sports Podcaster",
+        "description": "",
+        "img": "players/will.jpg"
+    },
+    {
+        "name": "Lauren",
+        "age": 22,
+        "state": "Louisiana",
+        "occupation": "Bridal Stylist",
+        "description": "",
+        "img": "players/lauren.jpg"
+    },
+    {
+        "name": "Katherine",
+        "age": 23,
+        "state": "South Carolina",
+        "occupation": "Fine Dining Server",
+        "description": "",
+        "img": "players/katherine.jpg"
+    },
+    {
+        "name": "Amy",
+        "age": 43,
+        "state": "California",
+        "occupation": "Insurance Agent",
+        "description": "",
+        "img": "players/amy.jpg"
+    },
+    {
+        "name": "Rachel",
+        "age": 40,
+        "state": "Alabama",
+        "occupation": "TV Personality",
+        "description": "Previously on BB12, BB13 (winner)",
+        "img": "players/rachel.jpg"
+    },
+    {
+        "name": "Jimmy",
+        "age": 25,
+        "state": "D.C.",
+        "occupation": "AI Consultant",
+        "description": "",
+        "img": "players/jimmy.jpg"
+    },
+    {
+        "name": "Ashley",
+        "age": 25,
+        "state": "New York",
+        "occupation": "Attorney",
+        "description": "",
+        "img": "players/ashley.jpg"
+    },
+    {
+        "name": "Mickey",
+        "age": 35,
+        "state": "Georgia",
+        "occupation": "Event Curator",
+        "description": "",
+        "img": "players/mickey.jpg"
+    },
+    {
+        "name": "Rylie",
+        "age": 27,
+        "state": "Oklahoma",
+        "occupation": "\"Professional\" Bull Rider",
+        "description": "",
+        "img": "players/rylie.jpg"
+    },
+    {
+        "name": "Adrian",
+        "age": 23,
+        "state": "Texas",
+        "occupation": "Carpenter",
+        "description": "",
+        "img": "players/adrian.jpg"
+    },
+    {
+        "name": "Morgan",
+        "age": 33,
+        "state": "California",
+        "occupation": "Gamer",
+        "description": "",
+        "img": "players/morgan.jpg"
+    }
 ]

@@ -56,7 +56,7 @@ export async function POST(request: any ) {
             return new Response(null, {
                 status: 302,
                 headers: {
-                    Location: '/vote'
+                    Location: `/vote?gameId=${encodeURIComponent(roomID)}&playerName=${encodeURIComponent(playerName)}`
                 }
             })
 
