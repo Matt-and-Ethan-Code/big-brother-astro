@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import playersJson from "./public/players.json";
+import playersJson from "../../public/players.json";
 import Sortable from 'sortablejs';
 /* Currently just a list of players' names */
 type Player = { name: string, age: number, state: string, occupation: string, description: string, img: string}
@@ -15,9 +15,21 @@ console.log(game_id, user_name)
     const Sortable = (await import('sortablejs')).default;
     const player_list = document.querySelector('ul');
     if (!player_list) throw new Error('no player list');
-    new Sortable(player_list, {
+    const sortable = new Sortable(player_list, {
       handle: '.handle',
       animation: 150,
+    })
+    sortable.option('onEnd', () => {
+      const order = sortable.toArray();
+
+      order.forEach((element, i) => {
+        const playerCard = document.getElementById(element);
+        const eliminationSpan = playerCard?.getElementsByClassName('eviction-number');
+        const firstSpanMatch = eliminationSpan?.item(0);
+        if (eliminationSpan && firstSpanMatch) {
+          firstSpanMatch.textContent = String(i + 1);
+        }
+      })
     })
   })
 
@@ -28,7 +40,6 @@ console.log(game_id, user_name)
       const player_name = player_element.id;
       player_names_in_order.push(player_name);
     }
-
     console.log(player_names_in_order)
   }
   document.getElementById('submit-button')!.addEventListener('click', onSubmit)
@@ -40,14 +51,15 @@ console.log(game_id, user_name)
 </style>
 <Layout>
   <ul>
-    {players.map(player=>
-      <li class="p-1 grid my-1 mx-2 border-2 border-solid rounded-lg box-border" style="background: rgba(255,255,255,.3); grid-template-columns: 40fr 50fr 10fr" id={player.name}>
+    {players.map((player, i)=>
+      <li data-id={player.name} class="p-1 grid my-1 mx-2 border-2 border-solid rounded-lg box-border" style="background: rgba(255,255,255,.3); grid-template-columns: 40fr 50fr 10fr" id={player.name}>
         <img class="rounded-lg" src={player.img}/>
         <div class="ml-4">
           <h3 class="text-3xl font-bold">{player.name}</h3>
           <h4 class="text-xl font-bold">{player.age}, {player.state}</h4>
           <h4 class="text-xl">{player.occupation}</h4>
           <p>{player.description}</p>
+          <p class="text=xl">Evicted: #<span class="eviction-number">{i + 1}</span></p>
         </div>
         <div class="flex items-center justify-center handle">
           <span class="material-symbols-outlined">
@@ -58,4 +70,3 @@ console.log(game_id, user_name)
   </ul>
   <button class="text-5xl border-2 rounded-lg bg-white px-2 py-1 w-full mb-4" id="submit-button">Submit Ranking</button>
 </Layout>
-
