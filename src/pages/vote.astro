@@ -48,18 +48,28 @@ console.log(game_id, user_name)
   html,body {
     overflow-y: auto;
   }
+  h3 {
+    font-family: 'Rubik Mono One', monospace;
+    font-weight: 400;
+    font-style: normal;
+  }
+
 </style>
 <Layout>
   <ul>
     {players.map((player, i)=>
-      <li data-id={player.name} class="p-1 grid my-1 mx-2 border-2 border-solid rounded-lg box-border" style="background: rgba(255,255,255,.3); grid-template-columns: 40fr 50fr 10fr" id={player.name}>
+      <li data-id={player.name} class="p-1 grid my-1 mx-2 border-2 border-solid rounded-lg box-border bg-gray-900/50" style="grid-template-columns: 40fr 50fr 10fr" id={player.name}>
         <img class="rounded-lg" src={player.img}/>
         <div class="ml-4">
-          <h3 class="text-3xl font-bold">{player.name}</h3>
-          <h4 class="text-xl font-bold">{player.age}, {player.state}</h4>
-          <h4 class="text-xl">{player.occupation}</h4>
-          <p>{player.description}</p>
-          <p class="text=xl">Evicted: #<span class="eviction-number">{i + 1}</span></p>
+          <div class="flex flex-col">
+              <h3 class="text-3xl font-bold p-2.5 text-white">{player.name}</h3>
+              <div class="p-2.5">
+                <h4 class="text-2xl font-bold text-white/70">{player.age} • {player.state}</h4>
+                <h4 class="text-2xl font-bold text-white/70">{player.occupation}</h4>
+              </div>
+              <p>{player.description}</p>
+          </div>
+          <p class="text-xl font-semibold text-white/70 p-2.5">Evicted: #<span class="eviction-number font-bold">{i + 1}</span></p>
         </div>
         <div class="flex items-center justify-center handle">
           <span class="material-symbols-outlined">
