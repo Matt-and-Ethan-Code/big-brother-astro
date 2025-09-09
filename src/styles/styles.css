@@ -66,3 +66,52 @@ input:focus {
     justify-content: space-between;
     height: 70%;
 }
+
+button {
+    max-width: 200px;
+    transition: 0.25s; 
+    background-color: #1A1A1A;   
+    color: #FFFFFF;      
+    position: relative;     
+
+    
+    border: none;
+    border-radius: 5px;  
+    padding: 0.75rem 1.5rem; 
+
+    transition: all 0.3s ease;
+    text-transform: uppercase;  
+
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    margin: 10px;
+    font-size: 1.5em;
+}
+
+
+		
+button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: url('../../public/squares.avif');
+    background-size: cover;
+    opacity: 0.8;
+
+    mask-image: radial-gradient(circle at center, transparent 50%, black 100%);
+    -webkit-mask-image: radial-gradient(circle at center, transparent 50%, black 100%);
+    pointer-events: none; 
+    z-index: 0; 
+}
+
+button:hover, button:focus {
+
+    box-shadow: 0 0 12px #FFDE59, 0 0 24px #FFDE59;
+    transform: scale(1.05);
+
+}
