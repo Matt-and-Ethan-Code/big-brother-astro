@@ -1,13 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import playersJson from "../../public/players.json";
-import Sortable from 'sortablejs';
-/* Currently just a list of players' names */
+
 type Player = { name: string, age: number, state: string, occupation: string, description: string, img: string}
 const players = playersJson as Player[];
-const game_id = Astro.url.searchParams.get('gameId');
-const user_name = Astro.url.searchParams.get('playerName')
-console.log(game_id, user_name)
 ---
 
 <script>
@@ -42,9 +38,30 @@ console.log(game_id, user_name)
       const player_name = player_element.id;
       player_names_in_order.push(player_name);
     }
+
+    const queryParams = (() => {
+      const raw_params = new URLSearchParams(window.location.search);
+      const game_id = raw_params.get('gameId');
+      const username = raw_params.get('username')
+      if (!game_id) throw new Error('no game id');
+      if (!username) throw new Error('no username');
+      return {game_id, username}
+    })();
+    console.log(queryParams)
     console.log(player_names_in_order)
+
+    fetch('/handle_create_room.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: queryParams.username,
+        game_id: queryParams.game_id,
+        rankings: player_names_in_order
+      }),
+      redirect: 'follow'
+    })
+
   }
-  document.getElementById('submit-button')!.addEventListener('click', onSubmit)
+  document.getElementById('submit-rankings-button')!.addEventListener('click', onSubmit)
 </script>
 <style>
   html,body {
@@ -86,7 +103,7 @@ console.log(game_id, user_name)
         </div>
       </li>)}
   </ul>
-  <button id="submit-rankings-button" class="text-5xl border-2 rounded-lg bg-white px-2 py-1 w-full mb-4 max-w-full min-w-full" id="submit-button">Submit Ranking</button>
+  <button id="submit-rankings-button" class="text-5xl border-2 rounded-lg bg-white px-2 py-1 w-full mb-4 max-w-full min-w-full">Submit Ranking</button>
 </Layout>
 
 <style>
