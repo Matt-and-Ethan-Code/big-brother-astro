@@ -22,7 +22,9 @@ export async function POST({params, request} : { request: Request, params: unkno
     if (!('rankings' in body) || !Array.isArray(body.rankings)) throw new Error('no rankings');
 
     const {username, game_id, rankings} = body;
-    // do something with these
+    const key = `${username}:${game_id}`
+    
+    await client.set(key, JSON.stringify(rankings))
     
     return new Response(null, {status:302, headers: {Location: `/`}})
 }

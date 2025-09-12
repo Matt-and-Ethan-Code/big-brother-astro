@@ -58,7 +58,7 @@ const players = playersJson as Player[];
         rankings: player_names_in_order
       }),
       redirect: 'follow'
-    })
+    }).then(() => window.location.replace('/vote-submitted'))
 
   }
   document.getElementById('submit-rankings-button')!.addEventListener('click', onSubmit)
