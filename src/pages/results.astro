@@ -54,24 +54,33 @@ import Layout from '../layouts/Layout.astro';
 
 	const getUsers = async () => {
 		const response = await fetch(`/get_players.json?roomCode=${encodeURIComponent(params)}`, {method: 'GET', headers: { 'Content-Type': 'application/json' }});
-		currentPlayers = response.players;
-		finishedPlayers = response.completedPlayers;
+		const responseData = await response.json();
+
+		currentPlayers = responseData.players;
+
+		finishedPlayers = responseData.completedPlayers;
+
 		
+		if (currentPlayers) {
+			for (let player of currentPlayers) {
+				const userCard = document.createElement("span");
+				userCard.classList.add("results-user-card");
+				userCard.textContent = player;
+				currentPlayersContainer.appendChild(userCard);
+			}
+		}
+
+		if (finishedPlayers) {
+			for (let player of finishedPlayers) {
+				const userCard = document.createElement("span");
+				userCard.classList.add("results-user-card");
+				userCard.textContent = player;
+				finishedPlayersContainer.appendChild(userCard);
+			}
+		}
 	}
 
-	for (let player of currentPlayers) {
-		const userCard = document.createElement("span");
-		userCard.classList.add("results-user-card");
-		userCard.textContent = player;
-		currentPlayersContainer.appendChild(userCard);
-	}
-
-	for (let player of finishedPlayers) {
-		const userCard = document.createElement("span");
-		userCard.classList.add("results-user-card");
-		userCard.textContent = player;
-		finishedPlayersContainer.appendChild(userCard);
-	}
+	getUsers();
 
 
 
