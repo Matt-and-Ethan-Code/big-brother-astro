@@ -4,15 +4,13 @@ body {
     padding: 0;
     min-height: 100%;
     width: 100%;
-    backdrop-filter: blur(9px);
     height: 100%;
 }
 
 body {
-    background-image: url("/bg11.png");
+    background-image: url("/bg11.jpg");
     object-fit: cover;
     background-size: cover;
-    backdrop-filter: blur(9px);
 }
 
 #top-logo {
