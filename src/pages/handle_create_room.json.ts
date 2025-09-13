@@ -2,6 +2,7 @@ import { createClient } from 'redis';
 
 export const prerender = false;
 
+
 const path_name = `rediss://default:${import.meta.env.UPSTASH_TOKEN}@${import.meta.env.UPSTASH_ENDPOINT}:${import.meta.env.UPSTASH_PORT}`
 console.log("PATH NAME: ", path_name)
 
