@@ -4,17 +4,32 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<div id="top-logo">
-		<h1>BIG BROTHER</h1>
-	</div>
-	<div id="page-content">
-		<div id="room-code-container">
-			<span>Room Code</span>
-			<span id="room-code"></span>
+	<div id="results-container">
+		<div id="top-logo">
+			<h1>BIG BROTHER</h1>
 		</div>
+		<div id="page-content">
+			<div id="results-room-code-container">
+				<span>Room Code</span>
+				<span id="results-room-code"></span>
+			</div>
 
-		<div id="current-players-container">
+			<div class="results-players-container-annotation">
+				Currently Playing
+			</div>
+			<div class="results-data-div">
+				<div id="results-current-players-container" class="results-players-container">
+				</div>
+			</div>
 
+
+			<div class="results-players-container-annotation">
+				Finished Playing
+			</div>
+			<div class="results-data-div">
+				<div id="results-submitted-players-container" class="results-players-container">
+				</div>
+			</div>
 		</div>
 	</div>
 </Layout>
@@ -24,7 +39,30 @@ import Layout from '../layouts/Layout.astro';
 	const params = new URLSearchParams(window.location.search).get('roomCode');
 	//const roomCode = Astro.url.searchParams.get('roomCode') || ''; //params.get('roomCode');
 
-	const roomCodeDiv = document.getElementById("room-code");
+	const roomCodeDiv = document.getElementById("results-room-code");
 
 	roomCodeDiv.textContent = params;
+	const currentPlayersContainer = document.getElementById("results-current-players-container");
+	const finishedPlayersContainer = document.getElementById("results-submitted-players-container");
+
+	const currentPlayersPlaceholder = ["player1", "player2", "player3"]
+	const finishedPlayersPlaceholder = ["player4", "player0"]
+
+	for (let player of currentPlayersPlaceholder) {
+		const userCard = document.createElement("span");
+		userCard.classList.add("results-user-card");
+		userCard.textContent = player;
+		currentPlayersContainer.appendChild(userCard);
+	}
+
+	for (let player of finishedPlayersPlaceholder) {
+		const userCard = document.createElement("span");
+		userCard.classList.add("results-user-card");
+		userCard.textContent = player;
+		finishedPlayersContainer.appendChild(userCard);
+	}
+
+
+
+
 </script>

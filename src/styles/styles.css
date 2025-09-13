@@ -115,3 +115,75 @@ button:hover, button:focus {
     transform: scale(1.05);
 
 }
+
+#results-room-code-container {
+    margin-bottom: 2em;
+}
+
+	.results-user-card, .results-players-container-annotation, #results-room-code-container {
+		color: white;
+        text-decoration: none;
+		padding-bottom: 2px;
+		font-family: 'Karla', sans-serif;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		transition: all 0.3s ease;
+
+	}
+    .results-players-container-annotation, #results-room-code-container {
+        font-size: large;
+    }
+
+	#results-page-content {
+		min-height: 50vh;
+        color: white;
+	}
+
+	#results-room-code {
+		font-weight: 900;
+		font-size: large;
+        color: white;
+	}
+
+	#results-container {
+		padding-top: 20px;
+	}
+	.results-players-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	#results-room-code-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 10px;
+        color: white;
+	}
+
+	.results-user-card {
+		margin: 0 5px;
+		color: white;
+        font-size: small;
+	}
+
+    .results-data-div {
+        min-height: 8vh;
+        width: 50vw;
+        display: flex;
+        flex-direction: column;
+        border-width: 2px;
+        border-radius: 7px;
+        border-color: white;
+        border-style: solid;
+        margin: 5px;
+        padding: 5px;
+        margin-bottom: 3em;
+    }
+
+    .results-players-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
