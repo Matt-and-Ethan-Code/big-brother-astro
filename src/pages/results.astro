@@ -31,6 +31,9 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</div>
 		</div>
+		<button onclick="getUsers()" id="results-refresh-data-button">
+			Refresh Data
+		</button>
 	</div>
 </Layout>
 
@@ -45,17 +48,25 @@ import Layout from '../layouts/Layout.astro';
 	const currentPlayersContainer = document.getElementById("results-current-players-container");
 	const finishedPlayersContainer = document.getElementById("results-submitted-players-container");
 
-	const currentPlayersPlaceholder = ["player1", "player2", "player3"]
-	const finishedPlayersPlaceholder = ["player4", "player0"]
+	let currentPlayers = [];
+	let finishedPlayers = [];
 
-	for (let player of currentPlayersPlaceholder) {
+
+	const getUsers = async () => {
+		const response = await fetch(`/get_players.json?roomCode=${encodeURIComponent(params)}`, {method: 'GET', headers: { 'Content-Type': 'application/json' }});
+		currentPlayers = response.players;
+		finishedPlayers = response.completedPlayers;
+		
+	}
+
+	for (let player of currentPlayers) {
 		const userCard = document.createElement("span");
 		userCard.classList.add("results-user-card");
 		userCard.textContent = player;
 		currentPlayersContainer.appendChild(userCard);
 	}
 
-	for (let player of finishedPlayersPlaceholder) {
+	for (let player of finishedPlayers) {
 		const userCard = document.createElement("span");
 		userCard.classList.add("results-user-card");
 		userCard.textContent = player;
