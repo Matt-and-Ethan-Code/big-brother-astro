@@ -1,30 +1,114 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { createClient } from 'redis';
+import { score, ACTUAL, REMAINING } from '../util/score';
+export const prerender = false;  // page is SSR, not SSG so it can be dynamic
+const roomCode = Astro.url.searchParams.get('roomCode');
+if (!roomCode) {
+  return new Response(null, {
+    status: 500,
+    statusText: `Bad roomCode: '${roomCode}''`
+  });
+}
+
+const path_name = `rediss://default:${import.meta.env.UPSTASH_TOKEN}@${import.meta.env.UPSTASH_ENDPOINT}:${import.meta.env.UPSTASH_PORT}`
+console.log("PATH NAME: ", path_name)
+
+const client = createClient({
+    url: path_name
+}).on("error", console.error)
+try {
+    await client.connect();
+} catch(e) {
+    console.log("ERROR! ", e);
+}
+
+let entry_names: string[] = [];
+for await (const entries of client.scanIterator({ MATCH: '*:*'})) {
+	for (const whatever of entries) {
+		entry_names.push(whatever);
+	}
+}
+type Result = {
+	username: string,
+	predicted_order: string[],
+	score: ReturnType<typeof score>,
+}
+const results: Result[] = [];
+for (const entry_name of entry_names) {
+	const semicolon_index = entry_name.lastIndexOf(':');
+	if (semicolon_index == -1) {
+		console.warn(`BAD ENTRY NAME: ${entry_name}`);
+		continue;
+	}
+
+	
+	const room_name = entry_name.slice(semicolon_index + 1);
+	if (room_name != roomCode) continue;  // this one is for a different room code
+	const username = entry_name.slice(0, semicolon_index);
+
+	const user_order: string[] | null = JSON.parse(await client.get(entry_name) || 'null');
+	if (!user_order || !Array.isArray(user_order)) {
+		console.warn(`BAD USER SCORES: ${user_order}`);
+		continue;
+	}
+	results.push({
+		username,
+		predicted_order: user_order,
+		score: score(user_order)
+	})
+}
+// sort in descending score
+results.sort((a, b) => b.score.total - a.score.total)
+const last_out_index = ACTUAL.length - 1;
+const with_last_out_style = (style: string, i: number) => i == last_out_index ? style + " border-r-2" : style;
 ---
 
 <Layout>
 	<div id="top-logo">
 		<h1>BIG BROTHER</h1>
 	</div>
-	<div id="page-content">
+	<div id="page-content" class="text-white/70">
 		<div id="room-code-container">
-			<span>Room Code</span>
-			<span id="room-code"></span>
+			<span>Room Code </span>
+			<span id="room-code">{roomCode}</span>
 		</div>
 
-		<div id="current-players-container">
-
-		</div>
+		<ul>
+			{results.map(result => 
+				<li class="border-black border-2 rounded-xl p-4 mb-4" style="background: rgba(0,0,0,0.3);">
+					<p>{result.username} | {result.score.total}</p>
+					<table>
+						<thead>
+							<th class="p-1 pr-2 text-left border-r-2">Actual</th>
+							{[...ACTUAL, ...REMAINING].map((player, i) => <th class={with_last_out_style("p-1", i)}>{player}</th>)}
+						</thead>
+						<tbody>
+							<tr>
+								<th class="p-1 pr-2 text-left border-r-2">Predicted</th>
+								{result.predicted_order.map((player, i) => <th class={with_last_out_style("p-1", i)}>{player}</th>)}
+							</tr>
+							<tr>
+								<th class="p-1 pr-2 text-left border-r-2">Distance</th>
+								{result.predicted_order.map((player, i) => {
+									const hi = result.score.per_person[player];
+									return <th class={with_last_out_style("p-1", i)}>{hi.distance}</th>;
+								})}
+							</tr>
+							<tr>
+								<th class="p-1 pr-2 text-left border-r-2">Points</th>
+								{result.predicted_order.map((player, i) => {
+									const hi = result.score.per_person[player];
+									if (hi.contribution == 0) {
+										return <th></th>
+									}
+									return <th class={with_last_out_style("p-1", i)}>{hi.contribution}</th>
+								})}
+							</tr>
+						</tbody>
+					</table>
+				</li>)}
+		</ul>
 	</div>
 </Layout>
-
-
-<script is:inline>
-	const params = new URLSearchParams(window.location.search).get('roomCode');
-	//const roomCode = Astro.url.searchParams.get('roomCode') || ''; //params.get('roomCode');
-
-	const roomCodeDiv = document.getElementById("room-code");
-
-	roomCodeDiv.textContent = params;
-</script>
