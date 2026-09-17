@@ -2,7 +2,7 @@
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import { createClient } from 'redis';
-import { score, ACTUAL, REMAINING } from '../util/score';
+import { score, ACTUAL, REMAINING, MAX_SCORE } from '../util/score';
 export const prerender = false;  // page is SSR, not SSG so it can be dynamic
 const roomCode = Astro.url.searchParams.get('roomCode');
 if (!roomCode) {
@@ -78,32 +78,36 @@ const with_last_out_style = (style: string, i: number) => i == last_out_index ? 
 		<ul>
 			{results.map(result => 
 				<li class="border-black border-2 rounded-xl p-4 mb-4" style="background: rgba(0,0,0,0.3);">
-					<p>{result.username} | {result.score.total}</p>
+					<p>{result.username} &nbsp;&nbsp;|&nbsp;&nbsp; <span class="font-bold">{result.score.total}</span> / {MAX_SCORE}</p>
 					<table>
 						<thead>
-							<th class="p-1 pr-2 text-left border-r-2">Actual</th>
-							{[...ACTUAL, ...REMAINING].map((player, i) => <th class={with_last_out_style("p-1", i)}>{player}</th>)}
+							<th class="p-1 pr-2 text-left border-r-2">Place</th>
+							{[...ACTUAL, ...REMAINING].map((_, i, arr) => <th>{arr.length - i}</th>)}
 						</thead>
 						<tbody>
 							<tr>
-								<th class="p-1 pr-2 text-left border-r-2">Predicted</th>
-								{result.predicted_order.map((player, i) => <th class={with_last_out_style("p-1", i)}>{player}</th>)}
+								<td class="p-1 pr-2 text-left border-r-2">Actual</td>
+								{[...ACTUAL, ...REMAINING].map((player, i) => <td class={with_last_out_style("p-1 text-center", i)}>{player}</td>)}
 							</tr>
 							<tr>
-								<th class="p-1 pr-2 text-left border-r-2">Distance</th>
+								<td class="p-1 pr-2 text-left border-r-2">Predicted</td>
+								{result.predicted_order.map((player, i) => <td class={with_last_out_style("p-1 text-center", i)}>{player}</td>)}
+							</tr>
+							<tr>
+								<td class="p-1 pr-2 text-left border-r-2">Distance</td>
 								{result.predicted_order.map((player, i) => {
 									const hi = result.score.per_person[player];
-									return <th class={with_last_out_style("p-1", i)}>{hi.distance}</th>;
+									return <td class={with_last_out_style("p-1 text-center", i)}>{hi.distance}</td>;
 								})}
 							</tr>
 							<tr>
-								<th class="p-1 pr-2 text-left border-r-2">Points</th>
+								<td class="p-1 pr-2 text-left border-r-2">Points</td>
 								{result.predicted_order.map((player, i) => {
 									const hi = result.score.per_person[player];
 									if (hi.contribution == 0) {
 										return <th></th>
 									}
-									return <th class={with_last_out_style("p-1", i)}>{hi.contribution}</th>
+									return <td class={with_last_out_style("p-1 text-center", i)}>{hi.contribution}</td>
 								})}
 							</tr>
 						</tbody>
