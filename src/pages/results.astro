@@ -87,7 +87,7 @@ const with_last_out_style = (style: string, i: number) => i == last_out_index ? 
 					<table>
 						<thead>
 							<th class="p-1 pr-2 text-left border-r-2">Place</th>
-							{[...ACTUAL, ...REMAINING].map((_, i, arr) => <th>{arr.length - i}</th>)}
+							{[...ACTUAL, ...REMAINING].map((_, i, arr) => <th class="p-1 text-center">{arr.length - i}</th>)}
 						</thead>
 						<tbody>
 							<tr>
