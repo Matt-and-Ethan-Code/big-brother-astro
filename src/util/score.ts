@@ -11,16 +11,16 @@ export const ACTUAL = [
   "Haley",
   "La Trice",
   "Angela",
+  "Barrett",
+  "Yash"
 ];
 
 export const REMAINING = [
-  "Yash",
   "Taylor",
   "Devens",
   "Melody",
   "Drew",
-  "Dee",
-  "Barrett",
+  "Dee"
 ];
 
 function score_impl(predicted: string[], actual: string[], remaining: string[]) {
