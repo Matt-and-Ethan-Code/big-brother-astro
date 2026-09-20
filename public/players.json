@@ -116,7 +116,7 @@
         "age": 28,
         "state": "Delray Beach, Florida",
         "occupation": "Pickleball Coach",
-        "description": "(Actual name Jack btw)",
+        "description": "",
         "img": "players/rome.avif"
     },
     {
@@ -132,7 +132,7 @@
         "age": 24,
         "state": "Monroe Township, New Jersey",
         "occupation": "Finance Analyst",
-        "description": "Lowkey doesn't view women as people",
+        "description": "",
         "img": "players/yash.avif"
     }
 ]
